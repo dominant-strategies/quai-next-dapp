@@ -1,40 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# quai-next-dapp
+
+`quai-next-dapp` is a boilerplate dApp built on top of Quai Network using the [NextJS framework](https://next.js) in tandem with [Chakra-UI](https://chakra-ui.com/).
+
+## Features
+
+- Using [Pelagus Wallet](https://pelaguswallet.io) in your application
+- Handling accounts and data from all shards
+- Fetching transaction data, tokens, and NFTs from [Quaiscan](https://cyprus1.colosseum.quaiscan.io)
+- Using the [quais SDK](https://npmjs.com/package/quais) to interact with Quai Network
+
+## Demo
+
+![quai-next-dapp](./public/SiteDemo.gif)
 
 ## Getting Started
 
-First, run the development server:
+Clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/dominant-strategies/quai-next-dapp.git
+cd quai-next-dapp
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the page.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Components
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Pelagus Connection
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Pelagus connection is achieved via the `quais.providers.web3Provider()` method. The logic for connecting to Pelagus is located in the [`lib/useGetAccounts.ts`](./lib/useGetAccounts.ts) and [`requestAcccounts.ts`](./lib/requestAccounts.ts) files.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- The logic in `useGetAccounts` always runs on page load and attempts to get the user's accounts if connected. It also initiates a listener for the `accountsChanged` event.
+- The logic in `requestAccounts` is only used in response to a direct user action. It prompts the user to connect their wallet and returns the accounts if successful.
 
-## Learn More
+### Data Fetching
 
-To learn more about Next.js, take a look at the following resources:
+`quai-next-dapp` fetches transaction data, tokens, and NFTs from the [Quaiscan API](https://cyprus1.colosseum.quaiscan.io). The logic for fetching data is located in the [`lib/api/requests.ts`](./lib/api/requests.ts) and the [`pages/api/`](./pages/api) directory. NextJS API routes are used to fetch data server-side and return it to the client.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- The logic in `requests.ts` is used to fetch and transform data from NextJS API routes.
+- The logic in the `pages/api/` directory is used to fetch data from the Quaiscan API and return it to the client.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Design
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+`quai-next-dapp` uses Chakra-UI for styling and layout. A complete style config for custom components and theme is located in the [`styles/`](./styles) directory.
