@@ -19,8 +19,10 @@ const requestAccounts = (dispatch: any) => {
     return account;
   };
 
-  if (window.ethereum?.isPelagus) {
-    const web3provider = new quais.providers.Web3Provider(window.ethereum);
+  // This ensures we choose the pelagus provider when users have multiple providers available
+  const provider = window.ethereum.providers?.find((provider: any) => provider.isPelagus ) || window.ethereum
+  if (provider?.isPelagus) {
+    const web3provider = new quais.providers.Web3Provider(provider);
     requestAccount(web3provider).then((account: any) => {
       if (account) {
         const rpcProvider = new quais.providers.JsonRpcProvider(buildRpcUrl(account.shard.rpcName));
