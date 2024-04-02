@@ -25,6 +25,7 @@ const NavButtonContent = [
 
 const Nav = () => {
   const { account } = useContext(StateContext);
+  console.log('Current account:', account);
   const dispatch = useContext(DispatchContext);
   useGetAccounts();
 

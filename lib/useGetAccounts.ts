@@ -24,21 +24,32 @@ const useGetAccounts = () => {
       return account;
     };
 
-    if (window.ethereum?.isPelagus) {
-      const web3provider = new quais.providers.Web3Provider(window.ethereum);
-      getAccounts(web3provider).then((account: any) => {
-        if (account) {
-          const rpcProvider = new quais.providers.JsonRpcProvider(buildRpcUrl(account.shard.rpcName));
-          dispatch({ type: 'SET_PROVIDER', payload: { web3: web3provider, rpc: rpcProvider } });
-          window.ethereum.on('accountsChanged', (accounts: Array<string>) => {
-            dispatchAccount(accounts, dispatch);
-          });
-        } else {
-          dispatch({ type: 'SET_PROVIDER', payload: { web3: web3provider, rpc: undefined } });
-        }
-      });
-    } else {
+    if (!window.ethereum) {
       dispatch({ type: 'SET_PROVIDER', payload: { web3: undefined, rpc: undefined } });
+      return;
+    } else {
+      let provider = window.ethereum;
+      if (window.ethereum.providers?.length) {
+        window.ethereum.providers.find(async (p: any) => {
+          if (p.isPelagus) provider = p;
+        });
+      }
+      if (provider.isPelagus) {
+        const web3provider = new quais.providers.Web3Provider(provider);
+        getAccounts(web3provider).then((account: any) => {
+          if (account) {
+            const rpcProvider = new quais.providers.JsonRpcProvider(buildRpcUrl(account.shard.rpcName));
+            dispatch({ type: 'SET_PROVIDER', payload: { web3: web3provider, rpc: rpcProvider } });
+            window.ethereum.on('accountsChanged', (accounts: Array<string>) => {
+              dispatchAccount(accounts, dispatch);
+            });
+          } else {
+            dispatch({ type: 'SET_PROVIDER', payload: { web3: web3provider, rpc: undefined } });
+          }
+        });
+      } else {
+        dispatch({ type: 'SET_PROVIDER', payload: { web3: undefined, rpc: undefined } });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

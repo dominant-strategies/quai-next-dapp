@@ -43,6 +43,7 @@ export const buildTransactionUrl = (shardName: string, txHash: string) => {
 
 // ---- dispatchers ---- //
 export const dispatchAccount = (accounts: Array<string>, dispatch: any) => {
+  console.log('Dispatching account:', accounts)
   let account;
   if (accounts.length !== 0) {
     const shard = quais.utils.getShardFromAddress(accounts[0]);
