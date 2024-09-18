@@ -36,6 +36,14 @@ export const fetchTransactions = async (address: string, url: string) => {
     return null; // Return null if the response is not ok
   } else {
     const transactions = await response.json();
-    return transactions; // Return the transactions if the response is ok
+    if (transactions.items) {
+      for (let i = 0; i < transactions.items.length; i++) {
+        const date = new Date(transactions.items[i].timestamp).toLocaleDateString();
+        transactions.items[i].timestamp = date;
+      }
+      return transactions; // Return the transactions if the response is ok
+    } else {
+      return []; // Return an empty array if there are no transactions
+    }
   }
 };

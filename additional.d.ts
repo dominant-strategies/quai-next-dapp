@@ -1,9 +1,9 @@
-import { ExternalProvider } from 'quais';
+import { AbstractProvider, Eip1193Provider } from 'quais';
 
 declare global {
   // ---- global ---- //
   interface Window {
-    ethereum?: ExternalProvider;
+    pelagus?: Eip1193Provider & AbstractProvider;
   }
 
   // ---- data ---- //
@@ -16,23 +16,13 @@ declare global {
     type: string;
   };
   type Transaction = {
-    blockHash: string;
-    blockNumber: number;
-    confirmations: number;
-    contractAddress: string;
-    cumulativeGasUsed: number;
-    from: string;
-    gasPrice: string | number;
-    gasUsed: string | number;
     hash: string;
-    input: string;
-    isError: number;
-    nonce: number;
-    timeStamp: string;
-    to: string;
-    transactionIndex: number | string;
-    txreceipt_status: number | string;
-    value: string | number;
+    type: string;
+    from: { hash: string };
+    to: { hash: string };
+    gas_used: string;
+    status: string;
+    raw_input: string;
   };
   type TokenData = {
     ERC20: Token[];
@@ -68,7 +58,7 @@ declare global {
     loading: boolean;
   }
   interface TransactionTableProps {
-    transactionData: TransactionData;
+    transactionData: Transaction[];
     loading: boolean;
   }
 }

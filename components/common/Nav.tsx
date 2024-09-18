@@ -6,7 +6,7 @@ import { DispatchContext, StateContext } from '@/store';
 import requestAccounts from '@/lib/requestAccounts';
 import useGetAccounts from '@/lib/useGetAccounts';
 import Button from '@/components/ui/Button';
-import { shortenAddress } from '@/lib/utils';
+import { shortenAddress, sortedQuaiShardNames } from '@/lib/utils';
 
 const NavButtonContent = [
   {
@@ -17,15 +17,14 @@ const NavButtonContent = [
     name: 'Transactions',
     link: '/transactions',
   },
-  {
-    name: 'Tokens',
-    link: '/tokens',
-  },
+  // {
+  //   name: 'Tokens',
+  //   link: '/tokens',
+  // },
 ];
 
 const Nav = () => {
   const { account } = useContext(StateContext);
-  console.log('Current account:', account);
   const dispatch = useContext(DispatchContext);
   useGetAccounts();
 
@@ -55,7 +54,7 @@ const Nav = () => {
       <Button variant="primary" size="md" onClick={connectHandler} disabled={!!account}>
         {account ? (
           <Flex gap="10px">
-            <Text variant="p2-bold">{account.shard.name}</Text>
+            <Text variant="p2-bold">{sortedQuaiShardNames[account.shard].name}</Text>
             <Text>{shortenAddress(account.addr)}</Text>
           </Flex>
         ) : (

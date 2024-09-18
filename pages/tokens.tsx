@@ -5,7 +5,7 @@ import { TokenTable, NftTable } from '@/components/pages/tokens';
 import BaseLayout from '@/components/layouts/BaseLayout';
 import { PageHeader } from '@/components/common';
 
-import { buildExplorerUrl, filterTokenResponse } from '@/lib/utils';
+import { filterTokenResponse } from '@/lib/utils';
 import { fetchTokens } from '@/lib/api/requests';
 import { StateContext } from '@/store';
 
@@ -19,10 +19,12 @@ const Tokens = ({ tokenData, setTokenData }: TokenPageProps) => {
     if (account.addr === tokenData?.address) return; // if account is the same as the previous account, don't attempt to load tokens
     setLoading(true);
     const getTokens = async () => {
-      const response = await fetchTokens(account.addr, buildExplorerUrl(account.shard.rpcName));
-      if (response !== null) {
-        const tokenData = filterTokenResponse(response.result, account.addr);
+      const response = await fetchTokens(account.addr, 'https://quaiscan.io');
+      if (response !== null && Array.isArray(response) && response.length > 0) {
+        const tokenData = filterTokenResponse(response, account.addr);
         setTokenData(tokenData);
+      } else {
+        setTokenData({ ERC20: [], ERC721: [], address: account.addr });
       }
       setLoading(false);
     };

@@ -1,5 +1,5 @@
 import { quais } from 'quais';
-import { buildRpcUrl, dispatchAccount } from './utils';
+import { dispatchAccount } from './utils';
 
 // ---- request accounts ---- //
 // only called on user action, prompts user to connect their wallet
@@ -19,29 +19,9 @@ const requestAccounts = (dispatch: any) => {
     return account;
   };
 
-  if (!window.ethereum) {
-    dispatch({ type: 'SET_PROVIDER', payload: { web3: undefined, rpc: undefined } });
-    return;
-  } else {
-    let provider = window.ethereum;
-    if (window.ethereum.providers?.length) {
-      window.ethereum.providers.find(async (p: any) => {
-        if (p.isPelagus) provider = p;
-      });
-    }
-    if (provider?.isPelagus) {
-      const web3provider = new quais.providers.Web3Provider(provider);
-      requestAccount(web3provider).then((account: any) => {
-        if (account) {
-          const rpcProvider = new quais.providers.JsonRpcProvider(buildRpcUrl(account.shard.rpcName));
-          dispatch({ type: 'SET_PROVIDER', payload: { web3: web3provider, rpc: rpcProvider } });
-        } else {
-          dispatch({ type: 'SET_PROVIDER', payload: { web3: web3provider, rpc: undefined } });
-        }
-      });
-    } else {
-      dispatch({ type: 'SET_PROVIDER', payload: { web3: undefined, rpc: undefined } });
-    }
+  if (window.pelagus) {
+    const web3provider = new quais.BrowserProvider(window.pelagus);
+    requestAccount(web3provider);
   }
 };
 
