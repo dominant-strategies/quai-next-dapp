@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-// uses the quaiscan API to get a list of transactions for an address (30 transactions)
-// endpoint: {chainName}.colosseum.quaiscan.io/api?module=account&action=txlist&address={address}&page=1&offset=30
-// more api options: https://cyprus1.colosseum.quaiscan.io/api-docs
+// uses the quaiscan API to get a list of transactions for an address
+// endpoint: https://quaiscan.io/api/v2/addresses/{address}/transactions
+// more api options: https://quaiscan.io/api-docs
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -10,13 +10,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   const explorerUrl = req.body.url;
   const address = req.body.address;
-  const url = `${explorerUrl}/api?module=account&action=txlist&address=${address}&page=1&offset=30`;
+  const url = `${explorerUrl}/api/v2/addresses/${address}/transactions`;
   try {
     const response = await fetch(url);
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json') && response.ok) {
       const transactions = await response.json();
       return res.status(200).json(transactions);
+    } else if (contentType && contentType.includes('application/json') && !response.ok) {
+      return res.status(404).json({ error: 'Not found' });
     } else {
       return res.status(500).json({ error: 'Non-JSON response received' });
     }

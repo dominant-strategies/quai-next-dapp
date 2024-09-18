@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import {
   TableContainer,
   Table,
@@ -18,12 +17,9 @@ import {
 
 import { shortenAddress, buildAddressUrl } from '@/lib/utils';
 import { Button } from '@/components/ui';
-import { StateContext } from '@/store';
 
 const NftTable = ({ tokenData, loading }: TokenTableProps) => {
-  const { account } = useContext(StateContext);
   const nfts: Token[] = tokenData?.ERC721;
-
   return (
     <Box w="100%" py="20px">
       {nfts && !loading ? (
@@ -49,12 +45,7 @@ const NftTable = ({ tokenData, loading }: TokenTableProps) => {
                     </Td>
                     <Td>{collection.balance.toString()}</Td>
                     <Td>
-                      <Button
-                        href={buildAddressUrl(account!.shard.rpcName, collection.contractAddress)}
-                        variant="link"
-                        newTab={true}
-                        size="md"
-                      >
+                      <Button href={buildAddressUrl(collection.contractAddress)} variant="link" newTab={true} size="md">
                         {shortenAddress(collection.contractAddress)}
                       </Button>
                     </Td>

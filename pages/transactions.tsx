@@ -5,7 +5,6 @@ import TransactionTable from '@/components/pages/transactions/TransactionTable';
 import BaseLayout from '@/components/layouts/BaseLayout';
 import { PageHeader } from '@/components/common';
 
-import { buildExplorerUrl, filterTransactionResponse } from '@/lib/utils';
 import { fetchTransactions } from '@/lib/api/requests';
 import { StateContext } from '@/store';
 
@@ -18,10 +17,12 @@ const Transactions = ({ transactionData, setTransactionData }: TransactionPagePr
     if (account.addr === transactionData?.address) return;
     setLoading(true);
     const getTransactions = async () => {
-      const response = await fetchTransactions(account.addr, buildExplorerUrl(account.shard.rpcName));
+      const response = await fetchTransactions(account.addr, 'https://quaiscan.io');
       if (response !== null) {
-        const txData = filterTransactionResponse(response.result, account.addr);
-        setTransactionData(txData);
+        const txData = response.items;
+        setTransactionData({ transactions: txData, address: account.addr });
+      } else {
+        setTransactionData({ transactions: [], address: account.addr });
       }
       setLoading(false);
     };
@@ -33,7 +34,7 @@ const Transactions = ({ transactionData, setTransactionData }: TransactionPagePr
     <BaseLayout>
       <PageHeader title="Transactions" />
       {account ? (
-        <TransactionTable transactionData={transactionData} loading={loading} />
+        <TransactionTable transactionData={transactionData?.transactions} loading={loading} />
       ) : (
         <Text py="20px">Connect a wallet to view your recent transactions.</Text>
       )}

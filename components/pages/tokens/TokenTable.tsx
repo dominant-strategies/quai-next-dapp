@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { quais } from 'quais';
 import {
   TableContainer,
@@ -19,12 +18,9 @@ import {
 
 import { shortenAddress, buildAddressUrl } from '@/lib/utils';
 import { Button } from '@/components/ui';
-import { StateContext } from '@/store';
 
 const TokenTable = ({ tokenData, loading }: TokenTableProps) => {
-  const { account } = useContext(StateContext);
   const ERC20Tokens: Token[] = tokenData?.ERC20;
-
   return (
     <Box w="100%" py="20px">
       {ERC20Tokens && !loading ? (
@@ -48,14 +44,9 @@ const TokenTable = ({ tokenData, loading }: TokenTableProps) => {
                         <Text>{token.name}</Text>
                       </HStack>
                     </Td>
-                    <Td>{quais.utils.formatUnits(token.balance.toString(), 'ether')}</Td>
+                    <Td>{quais.formatUnits(token.balance.toString(), 'ether')}</Td>
                     <Td>
-                      <Button
-                        href={buildAddressUrl(account!.shard.rpcName, token.contractAddress)}
-                        variant="link"
-                        newTab={true}
-                        size="md"
-                      >
+                      <Button href={buildAddressUrl(token.contractAddress)} variant="link" newTab={true} size="md">
                         {shortenAddress(token.contractAddress)}
                       </Button>
                     </Td>

@@ -1,18 +1,15 @@
 import React, { FC, createContext, useReducer, ReactNode } from 'react';
 
 interface StateData {
-  account: { addr: string; shard: { name: string; rpcName: string } } | undefined;
-  provider: { web3: any | undefined; rpc: any | undefined };
+  account: { addr: string; shard: string } | undefined;
 }
 
 const typeStateMap = {
   SET_ACCOUNT: 'account',
-  SET_PROVIDER: 'provider',
 };
 
 const initialState: StateData = {
   account: undefined,
-  provider: { web3: undefined, rpc: undefined },
 };
 
 const reducer = (state: StateData, action: { type: keyof typeof typeStateMap; payload: any }) => {

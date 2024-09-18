@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-import { quais } from 'quais';
 import {
   TableContainer,
   Table,
@@ -15,20 +13,17 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 
-import { shortenAddress, unixToDate, buildTransactionUrl, buildAddressUrl, txType } from '@/lib/utils';
+import { shortenAddress, buildTransactionUrl, buildAddressUrl, txType } from '@/lib/utils';
 import { Button, Badge } from '@/components/ui';
-import { StateContext } from '@/store';
 
 const TransactionTable = ({ transactionData, loading }: TransactionTableProps) => {
-  const { account } = useContext(StateContext);
-  const transactions: Transaction[] = transactionData?.transactions;
   return (
     <Box w="100%" py="20px">
-      {transactions && !loading ? (
+      {transactionData !== undefined && !loading ? (
         <Box border="2px" borderRadius="xl" padding="24px 18px">
           <TableContainer w={'full'}>
             <Table>
-              <TableCaption>Transactions Shown: {transactions.length}</TableCaption>
+              <TableCaption>Transactions Shown: {transactionData.length}</TableCaption>
               <Thead>
                 <Tr>
                   <Th>Hash</Th>
@@ -41,15 +36,10 @@ const TransactionTable = ({ transactionData, loading }: TransactionTableProps) =
                 </Tr>
               </Thead>
               <Tbody>
-                {transactions.map((tx, key) => (
+                {transactionData.map((tx: any, key: number) => (
                   <Tr key={key} cursor="pointer">
                     <Td>
-                      <Button
-                        href={buildTransactionUrl(account!.shard.rpcName, tx.hash)}
-                        variant="link"
-                        newTab={true}
-                        size="md"
-                      >
+                      <Button href={buildTransactionUrl(tx.hash)} variant="link" newTab={true} size="md">
                         {shortenAddress(tx.hash)}
                       </Button>
                     </Td>
@@ -58,29 +48,29 @@ const TransactionTable = ({ transactionData, loading }: TransactionTableProps) =
                     </Td>
                     <Td>
                       <Button
-                        href={buildAddressUrl(account!.shard.rpcName, tx.from)}
+                        href={buildAddressUrl(tx.from ? tx.from.hash : '')}
                         variant="link"
                         newTab={true}
                         size="md"
                       >
-                        {shortenAddress(tx.from)}
+                        {tx.from ? shortenAddress(tx.from.hash) : 'N/A'}
                       </Button>
                     </Td>
                     <Td>
                       <Button
-                        href={buildAddressUrl(account!.shard.rpcName, tx.to)}
+                        href={tx.to !== null ? buildAddressUrl(tx.to.hash) : undefined}
                         variant="link"
                         newTab={true}
                         size="md"
                       >
-                        {shortenAddress(tx.to)}
+                        {tx.to !== null ? shortenAddress(tx.to.hash) : ''}
                       </Button>
                     </Td>
-                    <Td>{quais.utils.formatUnits(tx.gasUsed.toString(), 'gwei')} gwei</Td>
-                    <Td>{unixToDate(tx.timeStamp)}</Td>
+                    <Td>{tx.gas_used} gwei</Td>
+                    <Td>{tx.timestamp}</Td>
                     <Td>
-                      <Text color={tx.txreceipt_status == '1' ? 'green.400' : 'red.500'}>
-                        {tx.txreceipt_status === '1' ? 'Success' : 'Failed'}
+                      <Text color={tx.status == 'ok' ? 'green.400' : 'red.500'}>
+                        {tx.status === 'ok' ? 'Success' : 'Failed'}
                       </Text>
                     </Td>
                   </Tr>
