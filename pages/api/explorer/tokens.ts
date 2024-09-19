@@ -15,8 +15,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const response = await fetch(url);
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json') && response.ok) {
-      const data = await response.json();
-      return res.status(200).json(data);
+      const tokens = await response.json();
+      return res.status(200).json(tokens);
     } else if (contentType && contentType.includes('application/json') && !response.ok) {
       return res.status(404).json({ error: 'Not found' });
     } else {

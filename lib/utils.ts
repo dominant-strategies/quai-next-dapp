@@ -62,8 +62,8 @@ export const dispatchAccount = (accounts: Array<string>, dispatch: any) => {
 
 // ---- response filters ---- //
 export const filterTokenResponse = (tokenData: any, address: string) => {
-  const ERC20 = tokenData.filter((token: Token) => token.type === 'ERC-20');
-  const ERC721 = tokenData.filter((token: Token) => token.type === 'ERC-721');
+  const ERC20 = tokenData.filter((token: TokenReturn) => token.token.type === 'ERC-20');
+  const ERC721 = tokenData.filter((token: TokenReturn) => token.token.type === 'ERC-721');
   return { ERC20, ERC721, address };
 };
 

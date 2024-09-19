@@ -20,7 +20,7 @@ import { shortenAddress, buildAddressUrl } from '@/lib/utils';
 import { Button } from '@/components/ui';
 
 const TokenTable = ({ tokenData, loading }: TokenTableProps) => {
-  const ERC20Tokens: Token[] = tokenData?.ERC20;
+  const ERC20Tokens: TokenReturn[] = tokenData?.ERC20;
   return (
     <Box w="100%" py="20px">
       {ERC20Tokens && !loading ? (
@@ -40,14 +40,14 @@ const TokenTable = ({ tokenData, loading }: TokenTableProps) => {
                   <Tr key={key} cursor="pointer">
                     <Td>
                       <HStack spacing="10px">
-                        <Avatar name={token.name} src={''} size="sm" />
-                        <Text>{token.name}</Text>
+                        <Avatar name={token.token.name} src={''} size="sm" />
+                        <Text>{token.token.name}</Text>
                       </HStack>
                     </Td>
-                    <Td>{quais.formatUnits(token.balance.toString(), 'ether')}</Td>
+                    <Td>{quais.formatUnits(token.value.toString(), 'ether')}</Td>
                     <Td>
-                      <Button href={buildAddressUrl(token.contractAddress)} variant="link" newTab={true} size="md">
-                        {shortenAddress(token.contractAddress)}
+                      <Button href={buildAddressUrl(token.token.address)} variant="link" newTab={true} size="md">
+                        {shortenAddress(token.token.address)}
                       </Button>
                     </Td>
                   </Tr>

@@ -7,14 +7,27 @@ declare global {
   }
 
   // ---- data ---- //
-  type Token = {
-    balance: string;
-    contractAddress: string;
-    decimals: number;
-    name: string;
-    symbol: string;
-    type: string;
+  type TokenReturn = {
+    token: Token;
+    token_id: string | null;
+    token_instance: string | null;
+    value: string;
   };
+
+  type Token = {
+    address: string;
+    circulating_market_cap: string | null;
+    decimals: string | null;
+    exchange_rate: string | null;
+    holders: string | null;
+    icon_url: string | null;
+    name: string | undefined;
+    symbol: string | null;
+    total_supply: string | null;
+    type: 'ERC-20' | 'ERC-721';
+    volume_24h: string | null;
+  };
+
   type Transaction = {
     hash: string;
     type: string;
@@ -25,8 +38,8 @@ declare global {
     raw_input: string;
   };
   type TokenData = {
-    ERC20: Token[];
-    ERC721: Token[];
+    ERC20: TokenReturn[];
+    ERC721: TokenReturn[];
     address: string | null;
   };
   type TransactionData = {

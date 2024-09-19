@@ -19,7 +19,7 @@ import { shortenAddress, buildAddressUrl } from '@/lib/utils';
 import { Button } from '@/components/ui';
 
 const NftTable = ({ tokenData, loading }: TokenTableProps) => {
-  const nfts: Token[] = tokenData?.ERC721;
+  const nfts: TokenReturn[] = tokenData?.ERC721;
   return (
     <Box w="100%" py="20px">
       {nfts && !loading ? (
@@ -39,14 +39,14 @@ const NftTable = ({ tokenData, loading }: TokenTableProps) => {
                   <Tr key={key} cursor="pointer">
                     <Td>
                       <HStack spacing="10px">
-                        <Avatar name={collection.name} src={''} size="sm" />
-                        <Text>{collection.name}</Text>
+                        <Avatar name={collection.token.name} src={''} size="sm" />
+                        <Text>{collection.token.name}</Text>
                       </HStack>
                     </Td>
-                    <Td>{collection.balance.toString()}</Td>
+                    <Td>{collection.value.toString()}</Td>
                     <Td>
-                      <Button href={buildAddressUrl(collection.contractAddress)} variant="link" newTab={true} size="md">
-                        {shortenAddress(collection.contractAddress)}
+                      <Button href={buildAddressUrl(collection.token.address)} variant="link" newTab={true} size="md">
+                        {shortenAddress(collection.token.address)}
                       </Button>
                     </Td>
                   </Tr>
