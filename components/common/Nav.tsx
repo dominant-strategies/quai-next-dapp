@@ -17,10 +17,10 @@ const NavButtonContent = [
     name: 'Transactions',
     link: '/transactions',
   },
-  // {
-  //   name: 'Tokens',
-  //   link: '/tokens',
-  // },
+  {
+    name: 'Tokens',
+    link: '/tokens',
+  },
 ];
 
 const Nav = () => {
