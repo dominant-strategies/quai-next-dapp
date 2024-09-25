@@ -1,12 +1,11 @@
 import { useContext } from 'react';
 import Image from 'next/image';
-import { Flex, HStack, Text } from '@chakra-ui/react';
 
+import { shortenAddress, sortedQuaiShardNames } from '@/lib/utils';
 import { DispatchContext, StateContext } from '@/store';
 import requestAccounts from '@/lib/requestAccounts';
 import useGetAccounts from '@/lib/useGetAccounts';
-import Button from '@/components/ui/Button';
-import { shortenAddress, sortedQuaiShardNames } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 const NavButtonContent = [
   {
@@ -32,36 +31,26 @@ const Nav = () => {
     requestAccounts(dispatch);
   };
   return (
-    <Flex
-      w="100%"
-      p="15px"
-      maxW="100%"
-      position="fixed"
-      maxH="70px"
-      backdropFilter="blur(10px)"
-      background="rgba(13,13,13,0.8)"
-      justifyContent="space-between"
-      zIndex={100}
-    >
-      <HStack spacing="15px">
+    <div className="flex justify-between items-center fixed top-0 left-0 w-full p-[15px] max-h-[70px] bg-rgba(13,13,13,0.8) backdrop-blur-[10px] z-[100]">
+      <div className="flex gap-[15px] items-center">
         <Image src="/quai-logo.png" alt="Quai Network Logo" width={35} height={35} />
         {NavButtonContent.map((item, key) => (
-          <Button key={key} variant="phantom" size="md" href={item.link} newTab={false}>
+          <Button key={key} variant="link" size="sm" className="font-light text-sm" href={item.link} newTab={false}>
             {item.name}
           </Button>
         ))}
-      </HStack>
-      <Button variant="primary" size="md" onClick={connectHandler} disabled={!!account}>
+      </div>
+      <Button variant="outline" size="sm" onClick={connectHandler} disabled={!!account}>
         {account ? (
-          <Flex gap="10px">
-            <Text variant="p2-bold">{sortedQuaiShardNames[account.shard].name}</Text>
-            <Text>{shortenAddress(account.addr)}</Text>
-          </Flex>
+          <div className="flex gap-[10px]">
+            <p className="text-white text-md font-semibold">{sortedQuaiShardNames[account.shard].name}</p>
+            <p className="text-gray-300 font-light">{shortenAddress(account.addr)}</p>
+          </div>
         ) : (
           'Connect'
         )}
       </Button>
-    </Flex>
+    </div>
   );
 };
 

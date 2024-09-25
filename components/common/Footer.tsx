@@ -1,4 +1,3 @@
-import { Flex, HStack } from '@chakra-ui/react';
 import { Button } from '@/components/ui';
 
 const FooterContent = [
@@ -18,26 +17,15 @@ const FooterContent = [
 
 const Footer = () => {
   return (
-    <Flex
-      w="100%"
-      p="15px"
-      maxW="100%"
-      position="fixed"
-      left="0"
-      bottom="0"
-      maxH="60px"
-      background="rgba(13,13,13,1)"
-      justifyContent="center"
-      borderTop="1px solid gray"
-    >
-      <HStack spacing="10px">
+    <div className="flex w-full p-[15px] fixed bottom-0 left-0 max-h-[60px] bg-rgba(13,13,13,0.8) backdrop-blur-[10px] z-[100] border-t-[1px] border-t-gray">
+      <div className="w-full flex justify-center gap-[15px]">
         {FooterContent.map((item, key) => (
-          <Button key={key} variant="phantom" size="sm" href={item.link} newTab={true}>
+          <Button key={key} variant="link" size="sm" href={item.link} newTab={true}>
             {item.title}
           </Button>
         ))}
-      </HStack>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

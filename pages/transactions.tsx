@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import { Text } from '@chakra-ui/react';
 
 import TransactionTable from '@/components/pages/transactions/TransactionTable';
 import BaseLayout from '@/components/layouts/BaseLayout';
@@ -36,7 +35,7 @@ const Transactions = ({ transactionData, setTransactionData }: TransactionPagePr
       {account ? (
         <TransactionTable transactionData={transactionData?.transactions} loading={loading} />
       ) : (
-        <Text py="20px">Connect a wallet to view your recent transactions.</Text>
+        <p className="py-[20px]">Connect a wallet to view your recent transactions.</p>
       )}
     </BaseLayout>
   );

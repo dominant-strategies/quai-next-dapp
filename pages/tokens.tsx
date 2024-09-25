@@ -1,10 +1,9 @@
 import { useEffect, useState, useContext } from 'react';
-import { Flex, Select, Text } from '@chakra-ui/react';
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TokenTable, NftTable } from '@/components/pages/tokens';
 import BaseLayout from '@/components/layouts/BaseLayout';
 import { PageHeader } from '@/components/common';
-
 import { filterTokenResponse } from '@/lib/utils';
 import { fetchTokens } from '@/lib/api/requests';
 import { StateContext } from '@/store';
@@ -32,19 +31,24 @@ const Tokens = ({ tokenData, setTokenData }: TokenPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTokenType(e.target.value);
+  const handleChange = (value: string) => {
+    setTokenType(value);
   };
 
   return (
     <BaseLayout>
-      <Flex minW="400px" flexDirection="row">
+      <div className="flex min-w-[500px]">
         <PageHeader title="Token Balances" />
-        <Select size="md" w="50%" mb="20px" value={tokenType} onChange={handleChange}>
-          <option value="ERC20">ERC20</option>
-          <option value="ERC721">ERC721</option>
+        <Select onValueChange={handleChange} defaultValue={tokenType}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue>{tokenType}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ERC20">ERC20</SelectItem>
+            <SelectItem value="ERC721">ERC721</SelectItem>
+          </SelectContent>
         </Select>
-      </Flex>
+      </div>
       {account ? (
         <>
           {tokenType === 'ERC20' ? (
@@ -54,7 +58,7 @@ const Tokens = ({ tokenData, setTokenData }: TokenPageProps) => {
           )}
         </>
       ) : (
-        <Text pt="20px">Connect a wallet to view your token balances.</Text>
+        <div className="pt-[20px]">Connect a wallet to view your token balances.</div>
       )}
     </BaseLayout>
   );

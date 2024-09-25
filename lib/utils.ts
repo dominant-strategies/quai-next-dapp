@@ -1,3 +1,5 @@
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
 import { quais } from 'quais';
 
 // ---- formatting ---- //
@@ -72,3 +74,8 @@ export const txType = (tx: Transaction) => {
   if (tx.raw_input === '0x') return 'Transfer';
   return 'Call';
 };
+
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}

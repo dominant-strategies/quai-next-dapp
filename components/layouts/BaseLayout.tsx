@@ -1,11 +1,10 @@
 import type { FC } from 'react';
-import { Container } from '@chakra-ui/react';
 
 const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
   return (
-    <Container py="100px" maxW="6xl" minW="400px" minH="500px" centerContent>
+    <div className="py-[100px] min-h-[500px] flex justify-center items-center">
       <main>{children}</main>
-    </Container>
+    </div>
   );
 };
 

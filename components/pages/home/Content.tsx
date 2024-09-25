@@ -1,25 +1,24 @@
-import { Flex, Text, List, ListItem, ListIcon } from '@chakra-ui/react';
 import { FaWallet, FaCoins, FaCubes, FaExchangeAlt, FaHammer } from 'react-icons/fa';
 
 const listItems = [
   {
-    icon: FaWallet,
+    icon: <FaWallet />,
     text: 'Connect with Pelagus',
   },
   {
-    icon: FaHammer,
+    icon: <FaHammer />,
     text: 'Build with the Quais SDK',
   },
   {
-    icon: FaExchangeAlt,
+    icon: <FaExchangeAlt />,
     text: 'Display transactions',
   },
   {
-    icon: FaCoins,
+    icon: <FaCoins />,
     text: 'Display tokens',
   },
   {
-    icon: FaCubes,
+    icon: <FaCubes />,
     text: 'Get Current Chain Data',
   },
   {
@@ -29,19 +28,17 @@ const listItems = [
 
 const Content = () => {
   return (
-    <Flex as="main" w="full" flexDir="column" py="2" gap="10">
-      <Text variant="p1">Learn the basics of building on Quai Network:</Text>
-      <List spacing={6}>
+    <div className="w-full flex flex-col py-2 gap-10">
+      <p className="text-lg tracking-tight font-light text-gray-200 ">Learn the basics of building on Quai Network:</p>
+      <div className="flex flex-col gap-6">
         {listItems.map((item, index) => (
-          <ListItem key={index}>
-            {item.icon && <ListIcon as={item.icon} color="primary.500" />}
-            <Text variant="p2-bold" as="span" ml={item.icon && 2}>
-              {item.text}
-            </Text>
-          </ListItem>
+          <div key={index} className="flex gap-4 items-center">
+            {item.icon}
+            <p className="text-md font-semibold tracking-wide text-gray-300">{item.text}</p>
+          </div>
         ))}
-      </List>
-    </Flex>
+      </div>
+    </div>
   );
 };
 
