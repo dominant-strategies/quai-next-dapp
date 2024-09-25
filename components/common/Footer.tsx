@@ -3,11 +3,11 @@ import { Button } from '@/components/ui';
 const FooterContent = [
   {
     title: 'Documentation',
-    link: 'https://qu.ai/docs/',
+    link: 'https://docs.qu.ai',
   },
   {
     title: 'Github',
-    link: 'https://github.com/dominant-strategies',
+    link: 'https://github.com/dominant-strategies/quai-next-dapp',
   },
   {
     title: 'Quai Network',
