@@ -1,10 +1,8 @@
-import { Text, Flex } from '@chakra-ui/react';
-
 const PageHeader = ({ title }: PageHeaderProps) => {
   return (
-    <Flex w="100%">
-      <Text variant="h2">{title}</Text>
-    </Flex>
+    <div className="w-full flex font-semibold text-2xl">
+      <p>{title}</p>
+    </div>
   );
 };
 

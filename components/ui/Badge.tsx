@@ -1,14 +1,31 @@
-import { Flex as ChakraFlex, useStyleConfig } from '@chakra-ui/react';
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-// style definition for custom badge component
-const Badge = (props: any) => {
-  const { children, variant, size, colorScheme, ...rest } = props;
-  const styles = useStyleConfig('Badge', { size, variant, colorScheme });
-  return (
-    <ChakraFlex __css={styles} {...rest}>
-      {children}
-    </ChakraFlex>
-  );
-};
+import { cn } from '@/lib/utils';
 
-export default Badge;
+const badgeVariants = cva(
+  'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  {
+    variants: {
+      variant: {
+        default: 'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
+        secondary: 'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        destructive: 'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
+        outline: 'text-foreground',
+        success: 'border-transparent bg-green-600',
+        failure: 'border-transparent bg-red-600',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+);
+
+export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}
+
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return <div className={cn(badgeVariants({ variant }), className)} {...props} />;
+}
+
+export { Badge, badgeVariants };

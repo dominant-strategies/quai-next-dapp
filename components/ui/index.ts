@@ -1,2 +1,3 @@
-export { default as Button } from './Button';
-export { default as Badge } from './Badge';
+export { Button, buttonVariants } from './button';
+export { Badge } from './badge';
+export { Spinner } from './spinner';

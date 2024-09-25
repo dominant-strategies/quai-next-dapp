@@ -1,12 +1,10 @@
-import { Flex, Text } from '@chakra-ui/react';
-
 const Hero = () => {
   return (
-    <Flex py="60px" maxW="100vw" direction="column">
-      <Text variant="display" borderBottom="1px solid" borderColor="gray.700">
+    <div className="flex py-[60px] flex-col">
+      <p className="text-6xl font-semibold tracking-widest border-b-gray-600 border-b py-5 text-gray-300">
         Quai Dapp Starter
-      </Text>
-    </Flex>
+      </p>
+    </div>
   );
 };
 
