@@ -1,6 +1,6 @@
 # quai-next-dapp
 
-`quai-next-dapp` is a boilerplate dApp built on top of Quai Network using the [NextJS framework](https://next.js) in tandem with [Chakra-UI](https://chakra-ui.com/). The live version of this site is hosted at [quai-next-dapp.vercel.app](https://quai-next-dapp.vercel.app/).
+`quai-next-dapp` is a boilerplate dApp built on top of Quai Network using the [NextJS framework](https://next.js) in tandem with [shadcn](https://ui.shadcn.com). The live version of this site is hosted at [quai-next-dapp.vercel.app](https://quai-next-dapp.vercel.app/).
 
 ## Features
 
@@ -49,4 +49,4 @@ Pelagus connection is achieved via the [`quais.BrowserProvider()`](https://docs.
 
 ### Design
 
-`quai-next-dapp` uses [Chakra-UI](https://chakra-ui.com/) for styling and layout. A complete style config for custom components and theme is located in the [`styles/`](./styles) directory.
+`quai-next-dapp` uses [shadcn](https://ui.shadcn.com) for styling and layout.
